@@ -3,35 +3,84 @@
 namespace DazzaDev\CaptchaSolver;
 
 use DazzaDev\CaptchaSolver\Exceptions\CaptchaSolverException;
+use DazzaDev\CaptchaSolver\ServiceResolver;
 
-class CaptchaSolver
+abstract class CaptchaSolver
 {
-    private $service = '';
+    private string $service;
 
-    private string $host = '';
+    private string $host;
 
     private string $clientKey;
 
     private bool $verboseMode = false;
 
-    private string $errorMessage;
+    private ?string $errorMessage = null;
 
     private string $taskId;
 
     public ?object $taskInfo = null;
 
+    /**
+     * Initialize CaptchaSolver with service and API key
+     * The host will be automatically resolved based on the service
+     *
+     * @param array $params Configuration parameters
+     *                     - service: The captcha service name (required)
+     *                     - api_key: The API key for the service (required)
+     *                     - host: Custom host (optional, will override auto-resolution)
+     * @throws CaptchaSolverException
+     */
     public function __construct(array $params = [])
     {
-        $this->setService($params['service'] ?? null);
+        $service = $params['service'] ?? $_ENV['CAPTCHA_SOLVER_SERVICE'] ?? null;
 
-        // Check if the CAPTCHA_SOLVER_SERVICE is set
-        if (! $this->service) {
-            throw new CaptchaSolverException('The environment variable CAPTCHA_SOLVER_SERVICE is not configured or is empty.');
+        if (! $service) {
+            throw new CaptchaSolverException('Service is required. Please provide it in params or set CAPTCHA_SOLVER_SERVICE environment variable.');
         }
 
-        $this->setHost($params['host'] ?? null);
-        $this->setClientKey($params['api_key'] ?? null);
+        $this->setService($service);
+
+        // Auto-resolve host based on service, unless custom host is provided
+        $host = $params['host'] ?? ServiceResolver::resolveHost($service);
+        $this->setHost($host);
+
+        $apiKey = $params['api_key'] ?? $_ENV['CAPTCHA_SOLVER_API_KEY'] ?? null;
+        if (! $apiKey) {
+            throw new CaptchaSolverException('API key is required. Please provide it in params or set CAPTCHA_SOLVER_API_KEY environment variable.');
+        }
+
+        $this->setClientKey($apiKey);
     }
+
+    /**
+     * Get list of supported services
+     *
+     * @return array List of supported service names
+     */
+    public static function getSupportedServices(): array
+    {
+        return ServiceResolver::getSupportedServices();
+    }
+
+    /**
+     * Check if a service is supported
+     *
+     * @param string $service The service name to check
+     * @return bool True if supported, false otherwise
+     */
+    public static function isServiceSupported(string $service): bool
+    {
+        return ServiceResolver::isServiceSupported($service);
+    }
+
+    /**
+     * Get post data for the specific captcha task
+     * This method must be implemented by each task type
+     *
+     * @return array The post data array for the API request
+     */
+    abstract public function getPostData(): array;
 
     /**
      * Submit new task and receive tracking ID

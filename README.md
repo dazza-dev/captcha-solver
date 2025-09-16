@@ -6,6 +6,23 @@ You can install this package via Composer.
 composer require dazza-dev/captcha-solver
 ```
 
+### Supported Services
+
+The following services are automatically supported:
+
+- `anticaptcha` - api.anti-captcha.com
+- `capmonster` - api.capmonster.cloud
+- `capsolver` - api.capsolver.com
+
+### Environment Variables (Optional)
+
+You can also set environment variables:
+
+```bash
+CAPTCHA_SOLVER_SERVICE=2captcha
+CAPTCHA_SOLVER_API_KEY=your-api-key-here
+```
+
 ## Captcha Resolution
 
 ### Solve reCaptcha Google
