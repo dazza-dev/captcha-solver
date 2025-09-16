@@ -8,19 +8,17 @@ class CaptchaSolver
 {
     private $service = '';
 
-    private $host = '';
+    private string $host = '';
 
-    private $scheme = 'https';
+    private string $clientKey;
 
-    private $clientKey;
+    private bool $verboseMode = false;
 
-    private $verboseMode = false;
+    private string $errorMessage;
 
-    private $errorMessage;
+    private string $taskId;
 
-    private $taskId;
-
-    public $taskInfo;
+    public ?object $taskInfo = null;
 
     public function __construct(array $params = [])
     {
@@ -48,14 +46,14 @@ class CaptchaSolver
             'clientKey' => $this->clientKey,
             'task' => $this->getPostData(),
         ];
-        $submitResult = $this->jsonPostRequest('createTask', $postData);
+        $submitResult = $this->submit('createTask', $postData);
 
         if ($submitResult == false) {
             throw new CaptchaSolverException('API error');
         }
 
         if ($submitResult->errorId == 0) {
-            $this->taskId = $submitResult->taskId;
+            $this->setTaskId($submitResult->taskId);
             $this->debout("created task with ID {$this->taskId}", 'yellow');
 
             return true;
@@ -85,7 +83,7 @@ class CaptchaSolver
             sleep(1);
         }
         $this->debout('requesting task status');
-        $postResult = $this->jsonPostRequest('getTaskResult', $postData);
+        $postResult = $this->submit('getTaskResult', $postData);
 
         if ($postResult == false) {
             throw new CaptchaSolverException('API error');
@@ -123,7 +121,7 @@ class CaptchaSolver
         $postData = [
             'clientKey' => $this->clientKey,
         ];
-        $result = $this->jsonPostRequest('getBalance', $postData);
+        $result = $this->submit('getBalance', $postData);
         if ($result == false) {
             throw new CaptchaSolverException('API error');
         }
@@ -135,19 +133,19 @@ class CaptchaSolver
     }
 
     /**
-     * @return mixed
+     * Submit request to captcha solver API
      *
      * @throws CaptchaSolverException
      */
-    public function jsonPostRequest($methodName, $postData)
+    public function submit(string $methodName, array $postData)
     {
         if ($this->verboseMode) {
-            echo "making request to {$this->scheme}://{$this->host}/$methodName with following payload:\n";
+            echo "making request to https://{$this->host}/$methodName with following payload:\n";
             print_r($postData);
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "{$this->scheme}://{$this->host}/$methodName");
+        curl_setopt($ch, CURLOPT_URL, "https://{$this->host}/$methodName");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -172,12 +170,18 @@ class CaptchaSolver
         return json_decode($result);
     }
 
+    /**
+     * Set verbose mode for captcha solver API
+     */
     public function setVerboseMode($mode)
     {
         $this->verboseMode = $mode;
     }
 
-    public function debout($message, $color = 'white')
+    /**
+     * Debug output for captcha solver API
+     */
+    public function debout(string $message, string $color = 'white')
     {
         if (! $this->verboseMode) {
             return false;
@@ -198,49 +202,59 @@ class CaptchaSolver
         echo $CLIMsg . "\n";
     }
 
-    public function setErrorMessage($message)
+    /**
+     * Set error message for captcha solver API
+     */
+    public function setErrorMessage(string $message)
     {
         $this->errorMessage = $message;
     }
 
     /**
-     * @return mixed
+     * Get error message for captcha solver API
      */
-    public function getErrorMessage()
+    public function getErrorMessage(): string
     {
         return $this->errorMessage;
     }
 
     /**
-     * @return mixed
+     * Get task ID for captcha solver API
      */
-    public function getTaskId()
+    public function getTaskId(): string
     {
         return $this->taskId;
     }
 
-    public function setTaskId($taskId)
+    /**
+     * Set task ID for captcha solver API
+     */
+    public function setTaskId(string $taskId)
     {
         $this->taskId = $taskId;
     }
 
-    public function setScheme($scheme)
+    /**
+     * SET host for captcha solver API
+     */
+    public function setHost(string $host)
     {
-        $this->scheme = $scheme;
+        $this->host = $host;
     }
 
-    public function setHost($host)
+    /**
+     * Set service for captcha solver API
+     */
+    public function setService(string $service)
     {
-        $this->host = $host ?? config('captcha-solver.endpoints.' . $this->service);
+        $this->service = $service;
     }
 
-    public function setService($service)
+    /**
+     * Set client key for captcha solver API
+     */
+    public function setClientKey(string $clientKey)
     {
-        $this->service = $service ?? config('captcha-solver.captcha_solver_service');
-    }
-
-    public function setClientKey($key)
-    {
-        $this->clientKey = $key ?? config('captcha-solver.captcha_solver_api_key');
+        $this->clientKey = $clientKey;
     }
 }
