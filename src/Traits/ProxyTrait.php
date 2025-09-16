@@ -4,44 +4,62 @@ namespace DazzaDev\CaptchaSolver\Traits;
 
 trait ProxyTrait
 {
-    private $proxy;
+    private string $proxy;
 
-    private $proxyType = 'http';
+    private string $proxyType = 'http';
 
-    private $proxyAddress;
+    private string $proxyAddress;
 
-    private $proxyPort;
+    private string $proxyPort;
 
-    private $proxyLogin;
+    private string $proxyLogin;
 
-    private $proxyPassword;
+    private string $proxyPassword;
 
-    public function setProxy($value)
+    /**
+     * Set proxy
+     */
+    public function setProxy(string $value): void
     {
         $this->proxy = $value;
     }
 
-    public function setProxyType($value)
+    /**
+     * Set proxy type
+     */
+    public function setProxyType(string $value): void
     {
         $this->proxyType = $value;
     }
 
-    public function setProxyAddress($value)
+    /**
+     * Set proxy address
+     */
+    public function setProxyAddress(string $value): void
     {
         $this->proxyAddress = $value;
     }
 
-    public function setProxyPort($value)
+    /**
+     * Set proxy port
+     */
+    public function setProxyPort(string $value): void
     {
         $this->proxyPort = $value;
     }
 
-    public function setProxyLogin($value)
+    /**
+     * Set proxy login
+     */
+    public function setProxyLogin(string $value): void
     {
         $this->proxyLogin = $value;
     }
 
-    public function setProxyPassword($value)
+    /**
+     * Set proxy password
+     */
+    public function setProxyPassword(string $value): void
     {
         $this->proxyPassword = $value;
     }

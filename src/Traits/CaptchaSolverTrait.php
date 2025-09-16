@@ -4,56 +4,80 @@ namespace DazzaDev\CaptchaSolver\Traits;
 
 trait CaptchaSolverTrait
 {
-    private $websiteUrl;
+    private string $websiteUrl;
 
-    private $websiteKey;
+    private string $websiteKey;
 
-    private $apiSubdomain;
+    private string $apiSubdomain;
 
-    private $data;
+    private string $data;
 
-    private $isInvisible = false;
+    private bool $isInvisible = false;
 
-    private $userAgent = '';
+    private string $userAgent = '';
 
-    private $cookies = '';
+    private string $cookies = '';
 
-    public function setTaskInfo($taskInfo)
+    /**
+     * Set task info
+     */
+    public function setTaskInfo(object $taskInfo): void
     {
         $this->taskInfo = $taskInfo;
     }
 
-    public function setWebsiteURL($value)
+    /**
+     * Set website URL
+     */
+    public function setWebsiteURL(string $value): void
     {
         $this->websiteUrl = $value;
     }
 
-    public function setWebsiteKey($value)
+    /**
+     * Set website key
+     */
+    public function setWebsiteKey(string $value): void
     {
         $this->websiteKey = $value;
     }
 
-    public function setAPISubdomain($value)
+    /**
+     * Set API subdomain
+     */
+    public function setAPISubdomain(string $value): void
     {
         $this->apiSubdomain = $value;
     }
 
-    public function setData($value)
+    /**
+     * Set data
+     */
+    public function setData(string $value): void
     {
         $this->data = $value;
     }
 
-    public function setIsInvisible($value)
+    /**
+     * Set is invisible
+     */
+    public function setIsInvisible(bool $value): void
     {
         $this->isInvisible = $value;
     }
 
-    public function setUserAgent($value)
+    /**
+     * Set user agent
+     */
+    public function setUserAgent(string $value): void
     {
         $this->userAgent = $value;
     }
 
-    public function setCookies($value)
+    /**
+     * Set cookies
+     */
+    public function setCookies(string $value): void
     {
         $this->cookies = $value;
     }
