@@ -6,7 +6,7 @@ use DazzaDev\CaptchaSolver\Tasks\RecaptchaV2;
 
 class CaptchaSolverClient
 {
-    private $params;
+    private array $params;
 
     public function __construct(array $params = [])
     {

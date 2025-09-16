@@ -3,7 +3,7 @@
 namespace DazzaDev\CaptchaSolver\Tasks;
 
 use DazzaDev\CaptchaSolver\CaptchaSolver;
-use DazzaDev\CaptchaSolver\CaptchaTaskProtocol;
+use DazzaDev\CaptchaSolver\Interfaces\CaptchaTaskProtocol;
 
 class CustomCaptcha extends CaptchaSolver implements CaptchaTaskProtocol
 {
@@ -13,7 +13,7 @@ class CustomCaptcha extends CaptchaSolver implements CaptchaTaskProtocol
 
     private $forms;
 
-    public function getPostData()
+    public function getPostData(): array
     {
         return [
             'type' => 'CustomCaptchaTask',

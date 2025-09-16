@@ -66,13 +66,13 @@ class CaptchaSolver
     }
 
     /**
-     * @param  int  $maxSeconds
-     * @param  int  $currentSecond
+     * Wait for task result
+     * 
      * @return bool
      *
      * @throws CaptchaSolverException
      */
-    public function waitForResult($maxSeconds = 300, $currentSecond = 0)
+    public function waitForResult(int $maxSeconds = 300, int $currentSecond = 0)
     {
         $postData = [
             'clientKey' => $this->clientKey,

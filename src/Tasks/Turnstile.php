@@ -3,7 +3,7 @@
 namespace DazzaDev\CaptchaSolver\Tasks;
 
 use DazzaDev\CaptchaSolver\CaptchaSolver;
-use DazzaDev\CaptchaSolver\CaptchaTaskProtocol;
+use DazzaDev\CaptchaSolver\Interfaces\CaptchaTaskProtocol;
 use DazzaDev\CaptchaSolver\Traits\CaptchaSolverTrait;
 use DazzaDev\CaptchaSolver\Traits\ProxyTrait;
 
@@ -11,7 +11,7 @@ class Turnstile extends CaptchaSolver implements CaptchaTaskProtocol
 {
     use CaptchaSolverTrait, ProxyTrait;
 
-    public function getPostData()
+    public function getPostData(): array
     {
         $postData = [
             'type' => ($this->proxyAddress) ? 'TurnstileTask' : 'TurnstileTaskProxyless',

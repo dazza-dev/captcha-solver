@@ -3,7 +3,7 @@
 namespace DazzaDev\CaptchaSolver\Tasks;
 
 use DazzaDev\CaptchaSolver\CaptchaSolver;
-use DazzaDev\CaptchaSolver\CaptchaTaskProtocol;
+use DazzaDev\CaptchaSolver\Interfaces\CaptchaTaskProtocol;
 use DazzaDev\CaptchaSolver\Traits\CaptchaSolverTrait;
 use DazzaDev\CaptchaSolver\Traits\ProxyTrait;
 
@@ -15,7 +15,7 @@ class RecaptchaV2 extends CaptchaSolver implements CaptchaTaskProtocol
 
     private $apiDomain;
 
-    public function getPostData()
+    public function getPostData(): array
     {
         $postData = [
             'websiteURL' => $this->websiteUrl,

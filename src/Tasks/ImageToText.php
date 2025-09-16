@@ -3,7 +3,7 @@
 namespace DazzaDev\CaptchaSolver\Tasks;
 
 use DazzaDev\CaptchaSolver\CaptchaSolver;
-use DazzaDev\CaptchaSolver\CaptchaTaskProtocol;
+use DazzaDev\CaptchaSolver\Interfaces\CaptchaTaskProtocol;
 
 class ImageToText extends CaptchaSolver implements CaptchaTaskProtocol
 {
@@ -31,7 +31,7 @@ class ImageToText extends CaptchaSolver implements CaptchaTaskProtocol
 
     private $recognizingThreshold;
 
-    public function getPostData()
+    public function getPostData(): array
     {
         $postData = [
             'type' => 'ImageToTextTask',

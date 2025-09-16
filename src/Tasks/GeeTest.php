@@ -3,7 +3,7 @@
 namespace DazzaDev\CaptchaSolver\Tasks;
 
 use DazzaDev\CaptchaSolver\CaptchaSolver;
-use DazzaDev\CaptchaSolver\CaptchaTaskProtocol;
+use DazzaDev\CaptchaSolver\Interfaces\CaptchaTaskProtocol;
 use DazzaDev\CaptchaSolver\Traits\CaptchaSolverTrait;
 use DazzaDev\CaptchaSolver\Traits\ProxyTrait;
 
@@ -21,7 +21,7 @@ class GeeTest extends CaptchaSolver implements CaptchaTaskProtocol
 
     private $initParameters;
 
-    public function getPostData()
+    public function getPostData(): array
     {
         $postData = [
             'type' => ($this->proxyAddress) ? 'GeeTestTask' : 'GeeTestTaskProxyless',
