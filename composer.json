@@ -1,0 +1,28 @@
+{
+  "name": "dazza-dev/captcha-solver",
+  "description": "Implementation of anti-captcha.com, anycaptcha.com, capsolver.com and capmonster.cloud",
+  "license": "Apache-2.0",
+  "keywords": [
+    "Anticaptcha",
+    "AnyCaptcha",
+    "Capsolver",
+    "Capmonster",
+    "Recaptcha",
+    "PHP"
+  ],
+  "require": {
+    "php": ">=8.0"
+  },
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Andres Daza",
+      "email": "adaza90@outlook.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "DazzaDev\\CaptchaSolver\\": "src/"
+    }
+  }
+}
